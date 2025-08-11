@@ -312,8 +312,23 @@ const fmt=n=>(n??0).toLocaleString();
 const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
 const pick=arr=>arr[Math.floor(Math.random()*arr.length)]||null;
 const deep=x=>JSON.parse(JSON.stringify(x));
-const STADIUM='\\u{1F3DF}\\uFE0F'; // 🏟️
-
+// --- flag emoji from country name ---
+const ISO2 = {
+  "England":"GB","Scotland":"GB","Wales":"GB",
+  "Spain":"ES","France":"FR","Netherlands":"NL","Serbia":"RS","Argentina":"AR","Belgium":"BE",
+  "Slovakia":"SK","Brazil":"BR","Hungary":"HU","Georgia":"GE","Algeria":"DZ","Germany":"DE",
+  "Norway":"NO","Colombia":"CO","Austria":"AT","Portugal":"PT","USA":"US","United States":"US",
+  "Slovenia":"SI","Cameroon":"CM","Ivory Coast":"CI","Côte d’Ivoire":"CI","Poland":"PL",
+  "Australia":"AU","South Korea":"KR","Korea Republic":"KR","Ireland":"IE","Denmark":"DK","Sweden":"SE"
+};
+function flagEmoji(country){
+  const cc = (ISO2[country]||"").toUpperCase();
+  if(!/^[A-Z]{2}$/.test(cc)) return "";
+  const cps = [...cc].map(c => 0x1F1E6 + (c.charCodeAt(0)-65));
+  return String.fromCodePoint(...cps);
+}
+  const STADIUM='\\u{1F3DF}\\uFE0F'; // 🏟️
+<div class="small">${p.pos} • 🏟️ ${p.club} • <span class="badge">${p.league}</span> • ${flagEmoji(p.nation)} ${p.nation||''}</div>
 const FLAGS={"England":"\\u{1F3F4}\\uE0067\\uE0062\\uE0065\\uE006E\\uE0067\\uE007F","Spain":"\\u{1F1EA}\\u{1F1F8}","France":"\\u{1F1EB}\\u{1F1F7}","Germany":"\\u{1F1E9}\\u{1F1EA}","Italy":"\\u{1F1EE}\\u{1F1F9}","Portugal":"\\u{1F1F5}\\u{1F1F9}","Argentina":"\\u{1F1E6}\\u{1F1F7}","Brazil":"\\u{1F1E7}\\u{1F1F7}","Netherlands":"\\u{1F1F3}\\u{1F1F1}","Belgium":"\\u{1F1E7}\\u{1F1EA}","Wales":"\\u{1F3F4}\\uE0067\\uE0062\\uE0077\\uE006C\\uE0073\\uE007F","USA":"\\u{1F1FA}\\u{1F1F8}","Saudi Arabia":"\\u{1F1F8}\\u{1F1E6}","Sweden":"\\u{1F1F8}\\u{1F1EA}","Serbia":"\\u{1F1F7}\\u{1F1F8}","Slovakia":"\\u{1F1F8}\\u{1F1F0}","Argentina":"\\u{1F1E6}\\u{1F1F7}","Denmark":"\\u{1F1E9}\\u{1F1F0}","Netherlands":"\\u{1F1F3}\\u{1F1F1}","Belgium":"\\u{1F1E7}\\u{1F1EA}","Hungary":"\\u{1F1ED}\\u{1F1FA}","Algeria":"\\u{1F1E9}\\u{1F1FF}","Cameroon":"\\u{1F1E8}\\u{1F1F2}","Norway":"\\u{1F1F3}\\u{1F1F4}","Colombia":"\\u{1F1E8}\\u{1F1F4}","Austria":"\\u{1F1E6}\\u{1F1F9}","Ghana":"\\u{1F1EC}\\u{1F1ED}","Switzerland":"\\u{1F1E8}\\u{1F1ED}","Georgia":"\\u{1F1EC}\\u{1F1EA}","Ivory Coast":"\\u{1F1E8}\\u{1F1EE}","Mozambique":"\\u{1F1F2}\\u{1F1FF}"};
 
 /* ========= State ========= */
