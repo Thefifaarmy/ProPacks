@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>TFA Packs — Pro</title>
+<title>TFA Packs — Pro (Fixed)</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -18,7 +18,7 @@ body{margin:0;font-family:'Outfit',system-ui,Segoe UI,Roboto,Helvetica,Arial;bac
   radial-gradient(900px 500px at -10% 10%, #0b162f 0%, transparent 50%),
   linear-gradient(180deg, var(--grad1), var(--grad2)); color:var(--ink); -webkit-font-smoothing:antialiased}
 .app{max-width:980px;margin:0 auto;padding:env(safe-area-inset-top) 16px env(safe-area-inset-bottom)}
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:16px;border-radius:18px;background:var(--glass);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.08);box-shadow:var(--shadow)}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:16px;border-radius:18px;background:var(--glass);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.08);box-shadow:var(--shadow);position:sticky;top:0;z-index:5}
 .brand{display:flex;align-items:center;gap:12px}
 .logo{width:36px;height:36px;border-radius:10px;background:conic-gradient(from 210deg at 50% 50%, #7b5cff, #00e0ff, #7b5cff);box-shadow:0 0 22px rgba(124,92,255,.45), inset 0 0 10px rgba(255,255,255,.15)}
 .brand h1{font-size:18px;margin:0 0 -2px 0;font-weight:700}.sub{font-size:12px;color:var(--muted);letter-spacing:.2px}
@@ -41,29 +41,41 @@ body{margin:0;font-family:'Outfit',system-ui,Segoe UI,Roboto,Helvetica,Arial;bac
 .tile:active{transform:scale(.98)} .tile h3{margin:0 0 6px;font-size:18px}
 .tag{position:absolute;top:12px;right:12px;font-size:12px;padding:6px 8px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12)}
 .tile .hint{color:var(--muted);font-size:13px} .tile.gradient{background:linear-gradient(135deg, rgba(124,92,255,.18), rgba(0,224,255,.12), rgba(255,255,255,.02))}
-.tabs{display:flex;gap:8px;margin:12px 0 16px}.tab{padding:10px 14px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10);cursor:pointer;font-weight:600;color:var(--muted)}
+.tabs{display:flex;gap:8px;margin:12px 0 16px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:10px 14px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10);cursor:pointer;font-weight:600;color:var(--muted);flex:0 0 auto}
 .tab.active{background:linear-gradient(90deg, var(--accent), var(--accent2)); color:#00131c}
 .list{display:grid;gap:12px}
-/* Player card layout - more breathing room */
-.card{margin:6px 0;padding:16px;border-radius:16px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.10);line-height:1.35}
-.card .row{display:flex;align-items:flex-start;flex-wrap:wrap;gap:14px}.card .ovr{font-size:30px;font-weight:900;margin-right:12px;min-width:44px}
-.badge{font-size:12px;padding:6px 8px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10)}
-.qs{margin-left:auto;white-space:nowrap}
-/* Packs list */
 .pack{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:14px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12)}
 .pack .pill{font-size:12px;padding:6px 8px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);margin-right:6px}
 .pack .price{font-weight:800}.pack .buy{padding:10px 14px;border-radius:12px;background:linear-gradient(90deg, var(--accent), var(--accent2));color:#00131c;border:0;font-weight:800;cursor:pointer}
-/* Overlay */
-.overlay{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.8);z-index:80}
-.overlay.show{display:flex}.flash{position:fixed;inset:0;pointer-events:none;opacity:0;transition:opacity .2s ease}.flash.show{opacity:.9}
-.reveal{width:min(920px,96%);max-height:90vh;overflow:auto;background:var(--card);border:1px solid var(--ring);border-radius:20px;padding:16px;box-shadow:var(--shadow)}
+.overlay{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.76);z-index:80}
+.overlay.show{display:flex}
+.flash{position:fixed;inset:0;pointer-events:none;opacity:0;transition:opacity .2s ease}
+.flash.show{opacity:.92}
+.reveal{width:min(920px,96%);max-height:80vh;overflow:auto;background:var(--card);border:1px solid var(--ring);border-radius:20px;padding:16px 16px 60px;box-shadow:var(--shadow);position:relative}
+.reveal h4{margin:0 0 10px}
+.card{margin:12px 0;padding:16px;border-radius:16px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.10);line-height:1.35}
+.card .row{display:flex;align-items:center;flex-wrap:wrap;gap:10px}
+.card .ovr{font-size:30px;font-weight:900;margin-right:12px}
+.badge{font-size:12px;padding:6px 8px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10)}
+.qs{margin-left:auto}
 .closeX{position:fixed;top:18px;right:18px;z-index:100}
-/* Modal */
+.nav{position:sticky;bottom:0;margin-top:18px;display:flex;gap:10px;justify-content:space-between}.nav .btn{flex:1;text-align:center}
 .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.6);z-index:90}
 .modal.show{display:flex}.sheet{width:min(560px,96%);background:var(--card);border:1px solid var(--ring);border-radius:18px;padding:16px;box-shadow:var(--shadow)}
 .sheet .head{display:flex;align-items:center;gap:10px}.sheet .big{font-size:46px;font-weight:900}.small{font-size:13px;color:var(--muted)}
-/* Admin */
+/* admin table look */
+.admin table{width:100%;border-collapse:separate;border-spacing:0 8px}
+.admin th,.admin td{padding:10px 12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1)}
+.admin th{background:rgba(255,255,255,.08);text-align:left}
 textarea.input{width:100%;min-height:120px;margin:8px 0;padding:10px;border-radius:12px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.12);color:var(--ink)}
+/* rarity accents (same layout, just shadows) */
+.r-bronze{box-shadow:inset 0 0 0 2px rgba(168,122,85,.4), 0 10px 24px rgba(0,0,0,.25)}
+.r-silver{box-shadow:inset 0 0 0 2px rgba(185,199,214,.4), 0 10px 24px rgba(0,0,0,.25)}
+.r-gold{box-shadow:inset 0 0 0 2px rgba(255,210,87,.45), 0 10px 24px rgba(0,0,0,.25)}
+.r-icon{box-shadow:inset 0 0 0 2px rgba(247,243,232,.55), 0 10px 24px rgba(0,0,0,.25)}
+.r-toty{box-shadow:inset 0 0 0 2px rgba(5,41,158,.55), 0 10px 24px rgba(0,0,0,.25)}
 @media(min-width:820px){.grid{grid-template-columns:repeat(4,1fr)}.tile{min-height:140px}}
 </style>
 </head>
@@ -87,7 +99,7 @@ textarea.input{width:100%;min-height:120px;margin:8px 0;padding:10px;border-radi
   <section class="hero">
     <div class="copy">
       <h2>Build the ultimate club.</h2>
-      <p>Open premium packs with full‑screen flashes, complete SBCs, and grow your collection. Admin tools included.</p>
+      <p>Open premium packs with full-screen flashes, complete SBCs, and grow your collection. Admin tools included.</p>
       <div class="cta">
         <button class="btn primary" onclick="openTab('store')">Open Store</button>
         <button class="btn" onclick="openTab('club')">My Club</button>
@@ -122,7 +134,7 @@ textarea.input{width:100%;min-height:120px;margin:8px 0;padding:10px;border-radi
   <!-- CLUB -->
   <section id="club" style="display:none">
     <div class="tabs"><div class="tab active">My Club</div></div>
-    <div class="row" style="gap:10px; margin:8px 0 12px">
+    <div class="row" style="gap:10px; margin:8px 0 12px; display:flex; flex-wrap:wrap">
       <input id="clubSearch" class="btn ghost" style="flex:1; min-width:200px" placeholder="Search name, club 🏟️, nation 🇪🇸, league, type">
       <select id="clubSort" class="btn ghost" style="min-width:190px">
         <option value="ratingDesc">Sort: Rating high → low</option>
@@ -143,7 +155,7 @@ textarea.input{width:100%;min-height:120px;margin:8px 0;padding:10px;border-radi
 
   <!-- ADMIN -->
   <section id="admin" style="display:none" class="admin">
-    <div class="tabs">
+    <div class="tabs" id="admintabs">
       <div class="tab active" onclick="showAdmin('players')">Leagues & Players</div>
       <div class="tab" onclick="showAdmin('packs')">Packs</div>
       <div class="tab" onclick="showAdmin('types')">Card Types</div>
@@ -155,9 +167,9 @@ textarea.input{width:100%;min-height:120px;margin:8px 0;padding:10px;border-radi
 
     <!-- Leagues & Players -->
     <div id="admin-players">
-      <div class="row" style="align-items:center">
+      <div class="row" style="align-items:center; display:flex; gap:8px; flex-wrap:wrap">
         <select id="leagueSelect" class="btn ghost" style="min-width:220px"></select>
-        <input id="leagueName" class="btn ghost" placeholder="New league name">
+        <input id="newLeagueName" class="btn ghost" placeholder="New league name">
         <button class="btn" onclick="addLeague()">Add League</button>
         <button class="btn" onclick="exportLeague()">Export league</button>
         <span id="leagueToast" class="badge" style="display:none">Added ✓</span>
@@ -173,13 +185,13 @@ textarea.input{width:100%;min-height:120px;margin:8px 0;padding:10px;border-radi
     <div id="admin-packs" style="display:none">
       <h4>Packs (publish to store)</h4>
       <div class="small">Choose a <b>source</b> mode and value. Card Type pulls match a type; League pulls match a league.</div>
-      <div class="row">
+      <div class="row" style="display:flex; gap:8px; flex-wrap:wrap">
         <input class="btn ghost" id="packKey" placeholder="key (gold)">
         <input class="btn ghost" id="packTitle" placeholder="title (Gold 5)">
         <input class="btn ghost" id="packPrice" type="number" placeholder="price">
         <input class="btn ghost" id="packCount" type="number" placeholder="cards">
       </div>
-      <div class="row" style="align-items:center">
+      <div class="row" style="align-items:center; display:flex; gap:8px; flex-wrap:wrap">
         <select id="packSourceMode" class="btn ghost" onchange="refreshSourceSelect()">
           <option value="cardType">Source: Card Type</option>
           <option value="league">Source: League</option>
@@ -194,7 +206,7 @@ textarea.input{width:100%;min-height:120px;margin:8px 0;padding:10px;border-radi
       <div class="row">
         <textarea id="packOdds" class="input" placeholder='Odds JSON (sum ~100). Example: {"gold":92,"icon":2,"toty":1,"totw":5}'></textarea>
       </div>
-      <div class="row">
+      <div class="row" style="display:flex; gap:8px; flex-wrap:wrap">
         <button class="btn" onclick="addPack()">Add Pack</button>
         <button class="btn primary" onclick="saveAll()">Save Packs</button>
       </div>
@@ -205,7 +217,7 @@ textarea.input{width:100%;min-height:120px;margin:8px 0;padding:10px;border-radi
     <!-- Card types -->
     <div id="admin-types" style="display:none">
       <h4>Card Types</h4>
-      <div class="row" style="align-items:center">
+      <div class="row" style="align-items:center; display:flex; gap:8px; flex-wrap:wrap">
         <input class="btn ghost" id="typeKey" placeholder="key (gold)">
         <input class="btn ghost" id="typeTitle" placeholder="title (Gold)">
         <input class="btn ghost" id="typeColor" placeholder="#ffd257">
@@ -225,7 +237,7 @@ textarea.input{width:100%;min-height:120px;margin:8px 0;padding:10px;border-radi
     <!-- Simulator -->
     <div id="admin-sim" style="display:none">
       <h4>Match Simulator rewards</h4>
-      <div class="row small" style="align-items:center">
+      <div class="row small" style="align-items:center; display:flex; gap:8px; flex-wrap:wrap">
         Win: <input id="rewardWin" type="number" value="7500" class="btn ghost" style="width:120px">
         Draw: <input id="rewardDraw" type="number" value="2500" class="btn ghost" style="width:120px">
         Loss: <input id="rewardLoss" type="number" value="500" class="btn ghost" style="width:120px">
@@ -240,7 +252,7 @@ textarea.input{width:100%;min-height:120px;margin:8px 0;padding:10px;border-radi
     <!-- SBC Creator -->
     <div id="admin-sbc" style="display:none">
       <h4>SBC Creator</h4>
-      <div class="row" style="align-items:center">
+      <div class="row" style="align-items:center; display:flex; gap:8px; flex-wrap:wrap">
         <input id="sbcKey" class="btn ghost" placeholder="key (PL_UPGRADE)">
         <input id="sbcTitle" class="btn ghost" placeholder="title (PL Upgrade)">
         <input id="sbcReq" class="btn ghost" style="flex:1" placeholder='requirements JSON ({"minOVR":80,"minPlayers":3,"league":"Premier League"})'>
@@ -254,7 +266,7 @@ textarea.input{width:100%;min-height:120px;margin:8px 0;padding:10px;border-radi
     <!-- Save -->
     <div id="admin-save" style="display:none">
       <h4>Save management</h4>
-      <div class="row">
+      <div class="row" style="display:flex; gap:8px; flex-wrap:wrap">
         <button class="btn" onclick="exportSave()">Export Save</button>
         <button class="btn" onclick="importSave()">Import Save</button>
         <button class="btn bad" onclick="hardReset()">Hard Reset</button>
@@ -266,10 +278,10 @@ textarea.input{width:100%;min-height:120px;margin:8px 0;padding:10px;border-radi
   <div id="ov" class="overlay">
     <button id="btnCloseOverlay" class="btn closeX">Exit</button>
     <div id="flash" class="flash"></div>
-    <div class="reveal">
+    <div id="revealPanel" class="reveal" role="dialog" aria-modal="true">
       <h4 id="revealTitle">You opened</h4>
-      <div id="revealList" class="list"></div>
-      <div class="row" style="gap:8px; margin-top:10px; justify-content:flex-end">
+      <div id="revealList"></div>
+      <div class="row" style="gap:8px; margin-top:10px; justify-content:flex-end; position:sticky; bottom:0; background:linear-gradient(180deg, transparent, rgba(14,22,39,.9)); padding-top:12px">
         <button id="btnSendAll" class="btn">Send all to club</button>
         <button id="btnQSAll" class="btn bad">Quick sell all</button>
       </div>
@@ -312,24 +324,22 @@ const fmt=n=>(n??0).toLocaleString();
 const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
 const pick=arr=>arr[Math.floor(Math.random()*arr.length)]||null;
 const deep=x=>JSON.parse(JSON.stringify(x));
-// --- flag emoji from country name ---
-const ISO2 = {
-  "England":"GB","Scotland":"GB","Wales":"GB",
-  "Spain":"ES","France":"FR","Netherlands":"NL","Serbia":"RS","Argentina":"AR","Belgium":"BE",
-  "Slovakia":"SK","Brazil":"BR","Hungary":"HU","Georgia":"GE","Algeria":"DZ","Germany":"DE",
-  "Norway":"NO","Colombia":"CO","Austria":"AT","Portugal":"PT","USA":"US","United States":"US",
-  "Slovenia":"SI","Cameroon":"CM","Ivory Coast":"CI","Côte d’Ivoire":"CI","Poland":"PL",
-  "Australia":"AU","South Korea":"KR","Korea Republic":"KR","Ireland":"IE","Denmark":"DK","Sweden":"SE"
+
+/* ========= Emojis / Flags ========= */
+const STADIUM = '🏟️';
+const FLAG = (country)=>{
+  const map={
+    'England':'🏴','Scotland':'🏴','Wales':'🏴','Northern Ireland':'🇬🇧',
+    'Spain':'🇪🇸','France':'🇫🇷','Germany':'🇩🇪','Netherlands':'🇳🇱','Belgium':'🇧🇪',
+    'Portugal':'🇵🇹','Italy':'🇮🇹','Denmark':'🇩🇰','Sweden':'🇸🇪','Norway':'🇳🇴',
+    'Finland':'🇫🇮','Ireland':'🇮🇪','Serbia':'🇷🇸','Slovakia':'🇸🇰','Slovenia':'🇸🇮',
+    'Argentina':'🇦🇷','Brazil':'🇧🇷','Uruguay':'🇺🇾','USA':'🇺🇸','United States':'🇺🇸',
+    'Colombia':'🇨🇴','Ivory Coast':'🇨🇮','Côte d’Ivoire':'🇨🇮','Ghana':'🇬🇭','Cameroon':'🇨🇲',
+    'Georgia':'🇬🇪','Algeria':'🇩🇿','Austria':'🇦🇹','Hungary':'🇭🇺','Mozambique':'🇲🇿',
+    'Norway':'🇳🇴','Switzerland':'🇨🇭'
+  };
+  return map[country] || '';
 };
-function flagEmoji(country){
-  const cc = (ISO2[country]||"").toUpperCase();
-  if(!/^[A-Z]{2}$/.test(cc)) return "";
-  const cps = [...cc].map(c => 0x1F1E6 + (c.charCodeAt(0)-65));
-  return String.fromCodePoint(...cps);
-}
-  const STADIUM='\\u{1F3DF}\\uFE0F'; // 🏟️
-<div class="small">${p.pos} • 🏟️ ${p.club} • <span class="badge">${p.league}</span> • ${flagEmoji(p.nation)} ${p.nation||''}</div>
-const FLAGS={"England":"\\u{1F3F4}\\uE0067\\uE0062\\uE0065\\uE006E\\uE0067\\uE007F","Spain":"\\u{1F1EA}\\u{1F1F8}","France":"\\u{1F1EB}\\u{1F1F7}","Germany":"\\u{1F1E9}\\u{1F1EA}","Italy":"\\u{1F1EE}\\u{1F1F9}","Portugal":"\\u{1F1F5}\\u{1F1F9}","Argentina":"\\u{1F1E6}\\u{1F1F7}","Brazil":"\\u{1F1E7}\\u{1F1F7}","Netherlands":"\\u{1F1F3}\\u{1F1F1}","Belgium":"\\u{1F1E7}\\u{1F1EA}","Wales":"\\u{1F3F4}\\uE0067\\uE0062\\uE0077\\uE006C\\uE0073\\uE007F","USA":"\\u{1F1FA}\\u{1F1F8}","Saudi Arabia":"\\u{1F1F8}\\u{1F1E6}","Sweden":"\\u{1F1F8}\\u{1F1EA}","Serbia":"\\u{1F1F7}\\u{1F1F8}","Slovakia":"\\u{1F1F8}\\u{1F1F0}","Argentina":"\\u{1F1E6}\\u{1F1F7}","Denmark":"\\u{1F1E9}\\u{1F1F0}","Netherlands":"\\u{1F1F3}\\u{1F1F1}","Belgium":"\\u{1F1E7}\\u{1F1EA}","Hungary":"\\u{1F1ED}\\u{1F1FA}","Algeria":"\\u{1F1E9}\\u{1F1FF}","Cameroon":"\\u{1F1E8}\\u{1F1F2}","Norway":"\\u{1F1F3}\\u{1F1F4}","Colombia":"\\u{1F1E8}\\u{1F1F4}","Austria":"\\u{1F1E6}\\u{1F1F9}","Ghana":"\\u{1F1EC}\\u{1F1ED}","Switzerland":"\\u{1F1E8}\\u{1F1ED}","Georgia":"\\u{1F1EC}\\u{1F1EA}","Ivory Coast":"\\u{1F1E8}\\u{1F1EE}","Mozambique":"\\u{1F1F2}\\u{1F1FF}"};
 
 /* ========= State ========= */
 let state=store.get('tfa_state_v6',null);
@@ -337,22 +347,18 @@ if(!state){
   state={
     coins:500000,daily:0,
     stats:{packsOpened:0,playersPacked:0,coinsSpent:0,coinsFromQS:0,highestOVR:0,bestPull:null,packOpenCounts:{},duplicatesQS:0},
-    cardTypes:{
-      bronze:{title:'Bronze',color:'#a87a55'},silver:{title:'Silver',color:'#b9c7d6'},gold:{title:'Gold',color:'#ffd257'},
-      icon:{title:'Icon',color:'#f7f3e8'},hero:{title:'Hero',color:'#ff3b6a'},fs:{title:'Future Stars',color:'#6a2cff'},
-      toty:{title:'TOTY',color:'#2b5bff'},tots:{title:'TOTS',color:'#00c8a3'},
-      ucl:{title:'UCL',color:'#0a84ff'},eul:{title:'EUL',color:'#ff7a00'}
-    },
-    qsRules:{bronze:{minOVR:50,maxOVR:64,minValue:100,maxValue:500},silver:{minOVR:65,maxOVR:74,minValue:600,maxValue:1500},gold:{minOVR:75,maxOVR:90,minValue:1000,maxValue:4000},icon:{minOVR:87,maxOVR:99,minValue:50000,maxValue:400000},hero:{minOVR:85,maxOVR:96,minValue:20000,maxValue:150000},fs:{minOVR:86,maxOVR:94,minValue:15000,maxValue:140000},toty:{minOVR:94,maxOVR:99,minValue:90000,maxValue:500000},tots:{minOVR:90,maxOVR:97,minValue:50000,maxValue:280000}},
+    cardTypes:{bronze:{title:'Bronze',color:'#a87a55'},silver:{title:'Silver',color:'#b9c7d6'},gold:{title:'Gold',color:'#ffd257'},icon:{title:'Icon',color:'#f7f3e8'},totw:{title:'TOTW',color:'#111111'},toty:{title:'TOTY',color:'#05299E'}},
+    qsRules:{bronze:{minOVR:50,maxOVR:64,minValue:100,maxValue:500},silver:{minOVR:65,maxOVR:74,minValue:600,maxValue:1500},gold:{minOVR:75,maxOVR:90,minValue:1000,maxValue:4000},icon:{minOVR:87,maxOVR:99,minValue:50000,maxValue:400000},toty:{minOVR:90,maxOVR:99,minValue:80000,maxValue:500000},totw:{minOVR:80,maxOVR:96,minValue:10000,maxValue:60000}},
     leagues:{},players:[],packs:{},club:[],myPacks:[],sim:{win:7500,draw:2500,loss:500,pack:'gold'},sbcs:{}
   };
   seedPlayers();
-  seedSpecials();
-  seedStarterPacks();
+  addPackDef({key:'bronze',title:'Bronze (5)',price:500,count:5,min:50,max:64,sourceMode:'cardType',source:'bronze',odds:{bronze:100}});
+  addPackDef({key:'silver',title:'Silver (5)',price:2500,count:5,min:65,max:74,sourceMode:'cardType',source:'silver',odds:{silver:100}});
+  addPackDef({key:'gold',title:'Gold (5)',price:6500,count:5,min:75,max:83,sourceMode:'cardType',source:'gold',odds:{gold:97,icon:2,totw:1}});
   saveAll();
 }
 
-/* ========= Seed base players ========= */
+/* ========= Seed players from your list ========= */
 function seedPlayers(){
   const list=[{"name":"Kepa Arrizabalaga","rating":80,"position":"GK","nation":"Spain","club":"Arsenal"},{"name":"Martin Zubimendi","rating":83,"position":"CDM","nation":"Spain","club":"Arsenal"},{"name":"Christian Nørgaard","rating":79,"position":"CDM","nation":"Denmark","club":"Arsenal"},{"name":"Noni Madueke","rating":78,"position":"RW","nation":"England","club":"Arsenal"},{"name":"Viktor Gyokeres","rating":79,"position":"ST","nation":"Sweden","club":"Arsenal"},{"name":"Adrien Truffert","rating":77,"position":"LB","nation":"France","club":"Bournemouth"},{"name":"Marco Bizot","rating":79,"position":"GK","nation":"Netherlands","club":"Bournemouth"},{"name":"Đorđe Petrović","rating":79,"position":"GK","nation":"Serbia","club":"Bournemouth"},{"name":"Jordan Henderson","rating":80,"position":"CM","nation":"England","club":"Brentford"},{"name":"Olivier Boscagli","rating":79,"position":"CB","nation":"France","club":"Brighton"},{"name":"Maxim De Cuyper","rating":77,"position":"LB","nation":"Belgium","club":"Brighton"},{"name":"Marcus Edwards","rating":79,"position":"RW","nation":"England","club":"Burnley"},{"name":"Kyle Walker","rating":83,"position":"RB","nation":"England","club":"Burnley"},{"name":"Martin Dúbravka","rating":78,"position":"GK","nation":"Slovakia","club":"Burnley"},{"name":"João Pedro","rating":78,"position":"ST","nation":"Brazil","club":"Chelsea"},{"name":"Walter Benítez","rating":79,"position":"GK","nation":"Argentina","club":"Crystal Palace"},{"name":"Kiernan Dewsbury-Hall","rating":78,"position":"CM","nation":"England","club":"Everton"},{"name":"Benjamin Lecomte","rating":77,"position":"GK","nation":"France","club":"Fulham"},{"name":"Lukas Nmecha","rating":77,"position":"ST","nation":"Germany","club":"Leeds United"},{"name":"Jaka Bijol","rating":76,"position":"CB","nation":"Slovenia","club":"Leeds United"},{"name":"Sean Longstaff","rating":76,"position":"CM","nation":"England","club":"Leeds United"},{"name":"Anton Stach","rating":77,"position":"CM","nation":"Germany","club":"Leeds United"},{"name":"Lucas Perri","rating":78,"position":"GK","nation":"Brazil","club":"Leeds United"},{"name":"Giorgi Mamardashvili","rating":80,"position":"GK","nation":"Georgia","club":"Liverpool"},{"name":"Jeremie Frimpong","rating":84,"position":"RB","nation":"Netherlands","club":"Liverpool"},{"name":"Florian Wirtz","rating":88,"position":"CAM","nation":"Germany","club":"Liverpool"},{"name":"Milos Kerkez","rating":77,"position":"LB","nation":"Hungary","club":"Liverpool"},{"name":"Hugo Ekitiké","rating":76,"position":"ST","nation":"France","club":"Liverpool"},{"name":"Rayan Aït-Nouri","rating":79,"position":"LB","nation":"Algeria","club":"Manchester City"},{"name":"Rayan Cherki","rating":79,"position":"CAM","nation":"France","club":"Manchester City"},{"name":"Tijjani Reijnders","rating":84,"position":"CM","nation":"Netherlands","club":"Manchester City"},{"name":"James Trafford","rating":76,"position":"GK","nation":"England","club":"Manchester City"},{"name":"Matheus Cunha","rating":78,"position":"ST","nation":"Brazil","club":"Manchester United"},{"name":"Bryan Mbeumo","rating":80,"position":"RW","nation":"Cameroon","club":"Manchester United"},{"name":"Anthony Elanga","rating":80,"position":"LW","nation":"Sweden","club":"Newcastle United"},{"name":"Aaron Ramsdale","rating":84,"position":"GK","nation":"England","club":"Newcastle United"},{"name":"Dan Ndoye","rating":78,"position":"RW","nation":"Switzerland","club":"Nottingham Forest"},{"name":"Gianluca Busio","rating":80,"position":"CAM","nation":"USA","club":"Sunderland"},{"name":"Reinildo Mandava","rating":78,"position":"LB","nation":"Mozambique","club":"Sunderland"},{"name":"Simon Adingra","rating":76,"position":"RW","nation":"Ivory Coast","club":"Sunderland"},{"name":"Granit Xhaka","rating":82,"position":"CM","nation":"Switzerland","club":"Sunderland"},{"name":"Kevin Danso","rating":79,"position":"CB","nation":"Austria","club":"Tottenham Hotspur"},{"name":"Mathys Tel","rating":77,"position":"ST","nation":"France","club":"Tottenham Hotspur"},{"name":"Mohammed Kudus","rating":82,"position":"CAM","nation":"Ghana","club":"Tottenham Hotspur"},{"name":"João Palhinha","rating":85,"position":"CDM","nation":"Portugal","club":"Tottenham Hotspur"},{"name":"Jean-Clair Todibo","rating":81,"position":"CB","nation":"France","club":"West Ham United"},{"name":"Kyle Walker-Peters","rating":78,"position":"RB","nation":"England","club":"West Ham United"},{"name":"Callum Wilson","rating":79,"position":"ST","nation":"England","club":"West Ham United"},{"name":"Jørgen Strand Larsen","rating":78,"position":"ST","nation":"Norway","club":"Wolverhampton Wanderers"},{"name":"Jhon Arias","rating":77,"position":"RW","nation":"Colombia","club":"Wolverhampton Wanderers"}];
   function typeFromRating(r){if(r<=64)return'bronze';if(r<=74)return'silver';return'gold'}
@@ -365,46 +371,9 @@ function seedPlayers(){
     state.leagues[obj.league]=state.leagues[obj.league]||[];
     state.leagues[obj.league].push(obj.name);
   });
-  // Starter leagues (empty allowed)
-  ['La Liga','Ligue 1','Serie A TIM','Bundesliga','Saudi Pro League'].forEach(L=>{ state.leagues[L]=state.leagues[L]||[]; });
-}
-
-/* Specials so special packs actually work */
-function seedSpecials(){
-  const positions=["GK","RB","LB","CB","CM","CDM","CAM","LW","RW","ST"];
-  const nations=["England","Spain","France","Brazil","Germany","Italy","Portugal","Argentina","Netherlands"];
-  function mk(type, n, min, max, club){
-    for(let i=1;i<=n;i++){
-      const o=min+Math.floor(Math.random()*(max-min+1));
-      state.players.push({name:`${type.toUpperCase()} Star ${i}`,ovr:o,pos:pick(positions),club:club||"Special XI",league:type.toUpperCase(),nation:pick(nations),type:type});
-    }
-  }
-  mk('icon',6,90,97,"Legends");
-  mk('hero',6,86,92,"Heroes");
-  mk('fs',6,86,93,"Future XI");
-  mk('toty',6,94,99,"World XI");
-  mk('tots',6,90,97,"Team of Season");
-  mk('ucl',6,84,93,"Europe XI");
-  mk('eul',6,82,90,"Europe League XI");
-}
-
-/* Starter packs */
-function seedStarterPacks(){
-  addPackDef({key:'bronze',title:'Bronze (5)',price:500,count:5,min:50,max:64,sourceMode:'cardType',source:'bronze',odds:{bronze:100}});
-  addPackDef({key:'silver',title:'Silver (5)',price:2500,count:5,min:65,max:74,sourceMode:'cardType',source:'silver',odds:{silver:100}});
-  addPackDef({key:'gold',title:'Gold (5)',price:6500,count:5,min:75,max:83,sourceMode:'cardType',source:'gold',odds:{gold:100}});
-  addPackDef({key:'prem_gold',title:'Premium Gold (5)',price:9000,count:5,min:76,max:83,sourceMode:'cardType',source:'gold',odds:{gold:100}});
-  addPackDef({key:'hero',title:'Hero (5)',price:280000,count:5,min:85,max:96,sourceMode:'cardType',source:'hero',odds:{hero:100}});
-  addPackDef({key:'icon',title:'Icon (5)',price:450000,count:5,min:88,max:99,sourceMode:'cardType',source:'icon',odds:{icon:100}});
-  addPackDef({key:'fs',title:'Future Stars (5)',price:120000,count:5,min:86,max:94,sourceMode:'cardType',source:'fs',odds:{fs:100}});
-  addPackDef({key:'toty',title:'TOTY (5)',price:900000,count:5,min:94,max:99,sourceMode:'cardType',source:'toty',odds:{toty:100}});
-  addPackDef({key:'tots',title:'TOTS (5)',price:420000,count:5,min:90,max:97,sourceMode:'cardType',source:'tots',odds:{tots:100}});
-  addPackDef({key:'ucl',title:'UCL (5)',price:220000,count:5,min:84,max:93,sourceMode:'cardType',source:'ucl',odds:{ucl:100}});
-  addPackDef({key:'eul',title:'EUL (5)',price:160000,count:5,min:82,max:90,sourceMode:'cardType',source:'eul',odds:{eul:100}});
-  // League locked base
-  ['Premier League','Championship'].forEach(L=>{
-    addPackDef({key:(L.toLowerCase().replace(/[^a-z]+/g,'_'))+'_gold',title:`${L} Gold (5)`,price:7500,count:5,min:75,max:83,sourceMode:'league',source:L,odds:{gold:100}});
-  });
+  // Starter leagues present in dropdown
+  state.leagues['La Liga']=state.leagues['La Liga']||[];
+  state.leagues['Bundesliga']=state.leagues['Bundesliga']||[];
 }
 
 /* ========= Persistence + Render boot ========= */
@@ -413,14 +382,14 @@ function renderAll(){renderCoins(state.coins);renderStore();renderMine();renderC
 function renderCoins(v){EL('coins').textContent=fmt(v)}
 
 /* ========= Navigation ========= */
-function openTab(id){['store','club','sbc','admin'].forEach(i=>EL(i).style.display='none'); if(id==='home'){window.scrollTo({top:0,behavior:'smooth'});return} EL(id).style.display='block'; window.scrollTo({top:EL(id).offsetTop-8,behavior:'smooth'})}
-function switchStore(w){
-  EL('tab-store').classList.toggle('active',w==='store');
-  EL('tab-mine').classList.toggle('active',w==='mine');
-  EL('storeList').style.display=w==='store'?'grid':'none';
-  EL('mineList').style.display=w==='mine'?'grid':'none';
-  if(w==='mine') renderMine(); else renderStore();
+function openTab(id){
+  ['store','club','sbc','admin'].forEach(i=>EL(i).style.display='none');
+  if(id==='home'){window.scrollTo({top:0,behavior:'smooth'});return}
+  EL(id).style.display='block';
+  if(id==='club'){ EL('clubSearch').value=''; renderClub(); }
+  window.scrollTo({top:EL(id).offsetTop-8,behavior:'smooth'})
 }
+function switchStore(w){EL('tab-store').classList.toggle('active',w==='store');EL('tab-mine').classList.toggle('active',w==='mine');EL('storeList').style.display=w==='store'?'grid':'none';EL('mineList').style.display=w==='mine'?'grid':'none'}
 
 /* ========= Topbar actions ========= */
 EL('dailyBtn').onclick=()=>{const d=new Date().toDateString();if(state.daily!==d){state.daily=d;state.coins+=100000;renderCoins(state.coins);saveAll()}};
@@ -445,10 +414,13 @@ function renderStore(){
 }
 function renderMine(){
   const m=EL('mineList');m.innerHTML='';EL('myCount').textContent=state.myPacks.length;
+  if(state.myPacks.length===0){const empty=document.createElement('div');empty.className='card small';empty.textContent='No packs in queue.';m.appendChild(empty);return;}
   state.myPacks.forEach((key,i)=>{
-    const p=state.packs[key];const row=document.createElement('div');row.className='pack';
-    row.innerHTML=`<div class="pill">${p?.title||key}</div><div class="small">Ready to open</div><div><button class="buy">Open</button></div>`;
+    const p=state.packs[key]; if(!p) return;
+    const row=document.createElement('div');row.className='pack';
+    row.innerHTML=`<div class="pill">${p.title}</div><div class="small">Ready to open</div><div><button class="buy">Open</button> <button class="btn ghost" style="margin-left:6px">Del</button></div>`;
     row.querySelector('.buy').onclick=()=>openPack(key,i,true);
+    row.querySelector('.btn.ghost').onclick=()=>{ state.myPacks.splice(i,1); saveAll(); };
     m.appendChild(row);
   })
 }
@@ -460,7 +432,7 @@ function buyPack(key){
 }
 function filterPoolByPack(p){
   let pool=state.players.filter(pl=>pl.ovr>=p.min&&pl.ovr<=p.max);
-  if(p.sourceMode==='cardType') pool=pool.filter(pl=>String(pl.type).toLowerCase()===String(p.source).toLowerCase());
+  if(p.sourceMode==='cardType') pool=pool.filter(pl=>pl.type===p.source);
   else pool=pool.filter(pl=>pl.league===p.source);
   if(pool.length===0) pool=state.players.filter(pl=>pl.ovr>=p.min&&pl.ovr<=p.max);
   return pool;
@@ -475,54 +447,54 @@ function chooseTypeByOdds(odds){
 let overlayCards=[];
 function openPack(key,idxInQueue,fromQueue){
   const p=state.packs[key]; if(!p) return;
-  if(fromQueue){ state.myPacks.splice(idxInQueue,1); saveAll(); renderMine(); }
+  if(fromQueue) state.myPacks.splice(idxInQueue,1);
   state.stats.packsOpened++;
   const basePool=filterPoolByPack(p);
   const cards=[];
   if(p.isPick){
     for(let i=0;i<3;i++){ cards.push(deep(pick(basePool))) }
-    showPick(cards,chosen=>{ addToClub([chosen]); saveAll(); closeReveal(false); });
+    showPick(cards,chosen=>{ addToClub([chosen]); closeReveal(); saveAll(); });
     return;
   }
   for(let i=0;i<(p.count||5);i++){
     let pool=basePool;
     const tPick=chooseTypeByOdds(p.odds);
-    if(tPick){ const typed=basePool.filter(pl=>String(pl.type).toLowerCase()===String(tPick).toLowerCase()); if(typed.length) pool=typed; }
+    if(tPick){ const typed=basePool.filter(pl=>pl.type===tPick); if(typed.length) pool=typed; }
     cards.push(deep(pick(pool)));
   }
   cards.sort((a,b)=>b.ovr-a.ovr);
-  flashType(cards[0].type); // animation color by card type
+  flashType(cards[0].type); // keep original animation logic (color by card type)
   showReveal(cards, p.title);
+  saveAll();
 }
 function flashType(typeKey){
-  const color=(state.cardTypes[String(typeKey)?.toLowerCase()]?.color)||'#ffffff';
+  const color=(state.cardTypes[typeKey]?.color)||'#ffffff';
   const f=EL('flash'); f.style.background=color; f.classList.add('show');
   setTimeout(()=>f.classList.remove('show'),220);
 }
 function rarityClass(p){
-  const t=(String(p.type)||'').toLowerCase();
+  const t=(p.type||'').toLowerCase();
   if(t==='icon') return 'r-icon';
   if(t==='toty') return 'r-toty';
   return p.ovr<=64?'r-bronze':p.ovr<=74?'r-silver':'r-gold';
 }
 function renderPlayer(p,withActions=true){
   const div=document.createElement('div'); div.className='card '+rarityClass(p);
-  const typeKey=String(p.type||'').toLowerCase();
-  const color=(state.cardTypes[typeKey]?.color)||'#ffffff';
-  div.style.boxShadow=`inset 0 0 0 2px ${color}66, 0 10px 24px rgba(0,0,0,.25)`;
+  const flag = FLAG(p.nation); // real emoji
   const val=computeQSValue(p);
-  const flag=(FLAGS[p.nation]||'');
   div.innerHTML=`
     <div class="row">
       <div class="ovr">${p.ovr}</div>
-      <div style="min-width:200px;flex:1">
-        <div style="font-weight:800;font-size:18px">${p.name} ${p.type?`<span class="badge">${(String(p.type)||'').toUpperCase()}</span>`:''}</div>
-        <div class="small">${p.pos} • ${p.club} ${STADIUM} • <span class="badge">${p.league}</span> • ${flag} ${p.nation||''}</div>
+      <div style="min-width:220px">
+        <div style="font-weight:800">${p.name} ${p.type?`<span class="badge">${(p.type||'').toUpperCase()}</span>`:''}</div>
+        <div class="small">${p.pos} • ${STADIUM} ${p.club} • <span class="badge">${p.league}</span> • ${flag?flag+' ':''}${p.nation||''}</div>
         <div class="small">Value: ${fmt(val)}</div>
       </div>
       ${withActions?`<div class="qs"><button class="btn bad">Quick Sell ${fmt(val)}</button></div>`:''}
     </div>`;
-  if(withActions){ div.querySelector('.btn').onclick=(ev)=>{ ev.stopPropagation(); const q=computeQSValue(p); state.coins+=q; state.stats.coinsFromQS+=q; removeFromClub(p); renderCoins(state.coins); saveAll(); }; }
+  if(withActions){
+    div.querySelector('.btn').onclick=(e)=>{ e.stopPropagation(); const q=computeQSValue(p); state.coins+=q; state.stats.coinsFromQS+=q; removeFromClub(p); renderCoins(state.coins); saveAll(); };
+  }
   div.onclick=()=>showDetail(p);
   return div;
 }
@@ -551,12 +523,7 @@ function showPick(cards,onChoose){
   });
   EL('ov').classList.add('show');
 }
-function closeReveal(addToClubOnClose=true){
-  if(addToClubOnClose && overlayCards && overlayCards.length){
-    addToClub(overlayCards); overlayCards=[]; saveAll(); renderClub();
-  }
-  EL('ov').classList.remove('show');
-}
+function closeReveal(){ EL('ov').classList.remove('show'); if(overlayCards && overlayCards.length){ addToClub(overlayCards); overlayCards=[]; saveAll(); renderClub(); } }
 
 /* ========= Club ========= */
 function addToClub(cards){
@@ -564,19 +531,19 @@ function addToClub(cards){
     state.club.push(p); state.stats.playersPacked++;
     if(p.ovr>state.stats.highestOVR){ state.stats.highestOVR=p.ovr; state.stats.bestPull={name:p.name,ovr:p.ovr,type:p.type}; }
   });
+  renderClub();
 }
 function removeFromClub(p){ const i=state.club.findIndex(x=>x===p); if(i>-1) state.club.splice(i,1); renderClub(); }
 function computeQSValue(p){
   if(typeof p.qsValue==='number') return Math.max(0,Math.floor(p.qsValue));
-  const key=String(p.type||'gold').toLowerCase();
-  const r=state.qsRules[key]||{minOVR:50,maxOVR:99,minValue:100,maxValue:1000};
+  const r=state.qsRules[p.type]||{minOVR:50,maxOVR:99,minValue:100,maxValue:1000};
   const t=(clamp(p.ovr,r.minOVR,r.maxOVR)-r.minOVR)/Math.max(1,(r.maxOVR-r.minOVR));
   return Math.floor(r.minValue+(r.maxValue-r.minValue)*t);
 }
 function renderClub(){
-  const q=EL('clubSearch').value?.trim().toLowerCase()||''; let arr=state.club.slice();
+  const q=EL('clubSearch').value.trim().toLowerCase(); let arr=state.club.slice();
   const sort=EL('clubSort').value;
-  if(q){ arr=arr.filter(p=>(p.name||'').toLowerCase().includes(q)||(p.club||'').toLowerCase().includes(q)||(p.league||'').toLowerCase().includes(q)||(String(p.type)||'').toLowerCase().includes(q)||(p.nation||'').toLowerCase().includes(q))}
+  if(q){ arr=arr.filter(p=>(p.name||'').toLowerCase().includes(q)||(p.club||'').toLowerCase().includes(q)||(p.league||'').toLowerCase().includes(q)||(p.type||'').toLowerCase().includes(q)||(p.nation||'').toLowerCase().includes(q))}
   if(sort==='ratingDesc')arr.sort((a,b)=>b.ovr-a.ovr);
   if(sort==='ratingAsc')arr.sort((a,b)=>a.ovr-b.ovr);
   if(sort==='nameAsc')arr.sort((a,b)=>(a.name||'').localeCompare(b.name||''));
@@ -609,8 +576,8 @@ function addSBC(){
 }
 function completeSBC(key){
   const s=state.sbcs[key]; const req=s.req||{};
-  const minOVR=req.minOVR||60, minPlayers=req.minPlayers||1, league=req.league||null, typeReq=(req.type||null);
-  const eligible=state.club.filter(p=>p.ovr>=minOVR && (!league || p.league===league) && (!typeReq || String(p.type).toLowerCase()===String(typeReq).toLowerCase()));
+  const minOVR=req.minOVR||60, minPlayers=req.minPlayers||1, league=req.league||null;
+  const eligible=state.club.filter(p=>p.ovr>=minOVR && (!league || p.league===league));
   if(eligible.length<minPlayers){ alert('Not enough eligible players'); return; }
   // consume
   const used=eligible.slice(0,minPlayers);
@@ -618,8 +585,8 @@ function completeSBC(key){
   // reward
   if(s.reward?.coins){ state.coins+=Number(s.reward.coins)||0; }
   if(s.reward?.pack){ state.myPacks.push(s.reward.pack); }
-  renderCoins(state.coins); saveAll(); renderMine(); renderClub();
-  alert('SBC submitted. Reward → My Packs.');
+  renderCoins(state.coins); saveAll(); renderMine(); renderClub(); switchStore('mine');
+  alert('SBC submitted. Reward granted.');
 }
 
 /* ========= Admin ========= */
@@ -633,10 +600,12 @@ function rebuildLeagueSelect(){
   Object.keys(state.leagues).sort().forEach(l=>{ const o=document.createElement('option'); o.value=l; o.textContent=l; sel.appendChild(o); });
 }
 function addLeague(){
-  const name=(EL('leagueName').value||'').trim(); if(!name) { alert('Enter a league name'); return; }
-  state.leagues[name]=state.leagues[name]||[]; saveAll(); rebuildLeagueSelect();
-  const t=EL('leagueToast'); t.textContent='Added ✓'; t.style.display='inline-block'; setTimeout(()=>t.style.display='none',1200);
-  EL('leagueName').value='';
+  const name=(EL('newLeagueName').value||'').trim();
+  if(!name) return alert('Type a league name first');
+  state.leagues[name]=state.leagues[name]||[];
+  EL('newLeagueName').value=''; saveAll();
+  rebuildLeagueSelect();
+  const t=EL('leagueToast'); t.style.display='inline-block'; setTimeout(()=>t.style.display='none',1200);
 }
 function importPlayers(){
   const league = EL('leagueSelect').value;
@@ -644,11 +613,11 @@ function importPlayers(){
   try{ arr = JSON.parse(EL('playersJson').value); }catch{ alert('Invalid JSON'); return; }
   arr.forEach(p=>{
     const r=p.rating||p.ovr||70;
-    const type=(p.type?String(p.type).toLowerCase():(r<=64?'bronze':r<=74?'silver':'gold'));
-    const obj={name:p.name,ovr:r,pos:p.position||p.pos||'CM',club:p.club||'Free Agents',league:p.league||league,nation:p.nation||'',type:type,value:Math.max(200,r*30)};
+    const type=(r<=64?'bronze':r<=74?'silver':'gold');
+    const obj={name:p.name,ovr:r,pos:p.position||p.pos||'CM',club:p.club||'Free Agents',league:league,nation:p.nation||'',type:(p.type||type),value:Math.max(200,r*30)};
     state.players.push(obj);
-    state.leagues[obj.league]=state.leagues[obj.league]||[];
-    state.leagues[obj.league].push(obj.name);
+    state.leagues[league]=state.leagues[league]||[];
+    state.leagues[league].push(obj.name);
   });
   saveAll();
   alert(`Imported ${arr.length} players into ${league}.`);
@@ -688,16 +657,16 @@ function addPack(){
   };
   state.packs[key]=o; saveAll();
   const t=EL('packToast'); t.style.display='inline-block'; setTimeout(()=>t.style.display='none',1200);
-  refreshWinPackSelect(); renderStore();
+  refreshWinPackSelect();
 }
 function renderAdmin(){
-  rebuildLeagueSelect(); refreshWinPackSelect();
+  rebuildLeagueSelect(); refreshWinPackSelect(); refreshSourceSelect();
   // Types list
   const tWrap=EL('typeTable'); tWrap.innerHTML='';
   Object.entries(state.cardTypes).forEach(([k,v])=>{
     const row=document.createElement('div'); row.className='pack';
     row.innerHTML=`<div class="pill">${k}</div><div class="small">${v.title}</div><div><span class="badge" style="background:${v.color};color:#001">${v.color}</span> <button class="buy">Del</button></div>`;
-    row.querySelector('.buy').onclick=()=>{ delete state.cardTypes[k]; saveAll(); refreshSourceSelect(); };
+    row.querySelector('.buy').onclick=()=>{ delete state.cardTypes[k]; saveAll(); };
     tWrap.appendChild(row);
   });
   // Packs list
@@ -725,7 +694,7 @@ function renderAdmin(){
         minValue:Number(EL(`qs-${k}-minv`).value)||r.minValue,
         maxValue:Number(EL(`qs-${k}-maxv`).value)||r.maxValue
       };
-      saveAll(); renderClub();
+      saveAll();
     };
     qsWrap.appendChild(row);
   });
@@ -743,7 +712,7 @@ function addCardType(){
   const title=EL('typeTitle').value.trim();
   const color=(EL('typeColor').value.trim()||'#ffd257');
   if(!k||!title) return;
-  state.cardTypes[k]={title,color}; saveAll(); refreshSourceSelect(); renderAdmin();
+  state.cardTypes[k]={title,color}; saveAll();
 }
 
 /* ========= Simulator ========= */
@@ -759,28 +728,29 @@ function simulateMatch(){
   let result='Loss', coins=state.sim.loss;
   if(r<0.45){ result='Win'; coins=state.sim.win; if(state.sim.pack) state.myPacks.push(state.sim.pack); }
   else if(r<0.70){ result='Draw'; coins=state.sim.draw; }
-  state.coins += coins; renderCoins(state.coins); saveAll(); renderMine();
+  state.coins += coins; renderCoins(state.coins); saveAll(); renderMine(); switchStore('mine');
   alert(`${result} +${fmt(coins)}`);
 }
 
 /* ========= Overlay / Detail ========= */
-EL('btnCloseOverlay').addEventListener('click', ()=>closeReveal(true));
-EL('btnSendAll').addEventListener('click', ()=>{ closeReveal(true); });
+EL('btnCloseOverlay').addEventListener('click', closeReveal);
+EL('ov').addEventListener('click', (e)=>{ if(e.target===EL('ov')) closeReveal(); }); // tap dim background to close
+EL('btnSendAll').addEventListener('click', ()=>{ closeReveal(); });
 EL('btnQSAll').addEventListener('click', ()=>{
-  if(!overlayCards || !overlayCards.length){ closeReveal(false); return; }
+  if(!overlayCards || !overlayCards.length){ closeReveal(); return; }
   const sum = overlayCards.reduce((s,p)=>s+computeQSValue(p),0);
   state.coins += sum; state.stats.coinsFromQS += sum;
-  overlayCards=[]; saveAll(); renderCoins(state.coins); closeReveal(false);
+  overlayCards=[]; saveAll(); renderCoins(state.coins); closeReveal();
   alert(`Sold all for ${fmt(sum)} coins.`);
 });
 
 function showDetail(p){
   EL('m-ovr').textContent=p.ovr;
-  EL('m-name').textContent=p.name + (p.type?` (${String(p.type).toUpperCase()})`:'');
+  EL('m-name').textContent=p.name + (p.type?` (${p.type})`:'');
   EL('m-pos').textContent=p.pos;
-  EL('m-club').textContent=p.club+' '+STADIUM;
+  EL('m-club').textContent=STADIUM+' '+p.club;
   EL('m-league').textContent=p.league;
-  EL('m-nation').textContent=(FLAGS[p.nation]||'')+' '+(p.nation||'');
+  EL('m-nation').textContent=(FLAG(p.nation)?FLAG(p.nation)+' ':'')+(p.nation||'');
   EL('m-value').textContent='Quick sell '+fmt(computeQSValue(p));
   EL('m-sell').onclick=()=>{ const val=computeQSValue(p); state.coins+=val; state.stats.coinsFromQS+=val; removeFromClub(p); renderCoins(state.coins); closeModal(); saveAll(); };
   EL('modal').classList.add('show');
